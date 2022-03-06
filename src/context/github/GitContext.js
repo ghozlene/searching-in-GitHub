@@ -35,7 +35,7 @@ export const GitProvider = ({ children }) => {
 	const searchOneUser = async (login) => {
 		setLoading();
 
-		const res = await fetch(`${GITHUB_URL}/search/users/${login}`, {
+		const res = await fetch(`${GITHUB_URL}/users/${login}`, {
 			headers: {
 				Authorization: `token ${GITHUB_TOKEN}`,
 			},
