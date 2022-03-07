@@ -6,7 +6,7 @@ import { searchUsers } from '../../context/github/GitAction';
 
 const UserSearch = () => {
 	const [text, setText] = useState('');
-	const { users, dispatch, clearUsers } = useContext(GitContext);
+	const { users, dispatch } = useContext(GitContext);
 	const { setAlert } = useContext(AlertContext);
 
 	const textHandler = (e) => {
@@ -24,7 +24,7 @@ const UserSearch = () => {
 		}
 	};
 	const ClearHandler = () => {
-		clearUsers();
+		dispatch({ type: 'CLEAR_USERS' });
 	};
 	return (
 		<div className='grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 mb-8 gap-8'>
