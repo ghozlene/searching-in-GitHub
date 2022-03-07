@@ -1,15 +1,19 @@
 import React, { useContext, useEffect } from 'react';
-import { FaCodepen, FaStore, FaUserFriends, FaUsers } from 'react-icons/fa';
+import { FaStore, FaUserFriends, FaUsers, FaCode } from 'react-icons/fa';
+import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import { FireworkSpinner } from '../components/layout/assets/FireworkSpinner';
 import { Link } from 'react-router-dom';
 import GitContext from '../context/github/GitContext';
+import ReposList from '../components/repos/ReposList';
 const User = () => {
-	const { searchOneUser, user, loading } = useContext(GitContext);
+	const { searchOneUser, user, loading, getUserRepos, repos } =
+		useContext(GitContext);
 
 	const params = useParams();
 	useEffect(() => {
 		searchOneUser(params.login);
+		getUserRepos(params.login);
 	}, []);
 
 	if (loading) {
@@ -40,7 +44,8 @@ const User = () => {
 		<>
 			<div className='w-full mx-auto lg:w-10/12'>
 				<div className='mb-4'>
-					<Link to='/' className='btn btn-ghost'>
+					<Link to='/' className='btn btn-outline btn-secondary btn-ghost'>
+						<BsFillArrowLeftCircleFill className='text-2xl md:text-2xl mr-2' />
 						Back to Search
 					</Link>
 				</div>
@@ -114,6 +119,45 @@ const User = () => {
 						</div>
 					</div>
 				</div>
+				<div className='w-full py-5 mb-6 rounded-lg shadow md bg-base-100 stats'>
+					<div className='stat'>
+						<div className='stat-figure text-info'>
+							<FaUsers className='text-3xl md:text-5xl' />
+						</div>
+						<div className='stat title pr-5'>followers</div>
+						<div className='stat-value pr-5 text-3xl md:text-4xl'>
+							{followers}
+						</div>
+					</div>
+					<div className='stat'>
+						<div className='stat-figure text-info'>
+							<FaUserFriends className='text-3xl md:text-5xl' />
+						</div>
+						<div className='stat title pr-5'>following</div>
+						<div className='stat-value pr-5 text-3xl md:text-4xl'>
+							{following}
+						</div>
+					</div>
+					<div className='stat'>
+						<div className='stat-figure text-info'>
+							<FaCode className='text-3xl md:text-5xl' />
+						</div>
+						<div className='stat title pr-5'>Public repos</div>
+						<div className='stat-value pr-5 text-3xl md:text-4xl'>
+							{public_repos}
+						</div>
+					</div>
+					<div className='stat'>
+						<div className='stat-figure text-info'>
+							<FaStore className='text-3xl md:text-5xl' />
+						</div>
+						<div className='stat title pr-5'>Public gists</div>
+						<div className='stat-value pr-5 text-3xl md:text-4xl'>
+							{public_gists}
+						</div>
+					</div>
+				</div>
+				<ReposList repos={repos} />
 			</div>
 		</>
 	);
