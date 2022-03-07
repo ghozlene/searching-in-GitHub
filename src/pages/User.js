@@ -6,15 +6,22 @@ import { FireworkSpinner } from '../components/layout/assets/FireworkSpinner';
 import { Link } from 'react-router-dom';
 import GitContext from '../context/github/GitContext';
 import ReposList from '../components/repos/ReposList';
+import { getUserRepos, searchOneUser } from '../context/github/GitAction';
 const User = () => {
-	const { searchOneUser, user, loading, getUserRepos, repos } =
-		useContext(GitContext);
+	const { user, dispatch, loading, repos } = useContext(GitContext);
 
 	const params = useParams();
 	useEffect(() => {
-		searchOneUser(params.login);
-		getUserRepos(params.login);
-	}, []);
+		dispatch({ type: 'SET_LOADING' });
+		const getUserData = async () => {
+			const userData = await searchOneUser(params.login);
+			dispatch({ type: 'GET_USER', payload: userData });
+
+			const userReposData = await getUserRepos(params.login);
+			dispatch({ type: 'GET_REPOS', payload: userReposData });
+		};
+		getUserData();
+	}, [dispatch, params]);
 
 	if (loading) {
 		return (
