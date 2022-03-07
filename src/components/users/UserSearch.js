@@ -38,7 +38,7 @@ const UserSearch = () => {
 							/>
 							<button
 								type='submit'
-								className='absolute top-0 right-0 rounded-l-none w-20 btn btn-lg'>
+								className='absolute top-0 right-0 rounded-l-none w-20 btn btn-outline btn-success btn-lg'>
 								Go
 							</button>
 						</div>
@@ -48,7 +48,9 @@ const UserSearch = () => {
 
 			{users.length > 0 && (
 				<div>
-					<button className='btn btn-ghost btn-lg' onClick={ClearHandler}>
+					<button
+						className='btn btn-outline btn-warning btn-lg'
+						onClick={ClearHandler}>
 						Clear
 					</button>
 				</div>
