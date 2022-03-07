@@ -4,5 +4,7 @@
 	"emmet.includeLanguages": {
 		"vue-html": "html",
 		"javascript": "javascriptreact"
-	}
+	},
+
+	"better-comments.multilineComments": true
 }

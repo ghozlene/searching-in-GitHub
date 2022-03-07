@@ -2,21 +2,24 @@ import React from 'react';
 import { useState, useContext } from 'react';
 import GitContext from '../../context/github/GitContext';
 import AlertContext from '../../context/alert/AlertContext';
+import { searchUsers } from '../../context/github/GitAction';
 
 const UserSearch = () => {
 	const [text, setText] = useState('');
-	const { users, searchUsers, clearUsers } = useContext(GitContext);
+	const { users, dispatch, clearUsers } = useContext(GitContext);
 	const { setAlert } = useContext(AlertContext);
 
 	const textHandler = (e) => {
 		setText(e.target.value);
 	};
-	const sumbitHandler = (e) => {
+	const sumbitHandler = async (e) => {
 		e.preventDefault();
 		if (text === '') {
 			setAlert('Enter something for searching', 'error');
 		} else {
-			searchUsers(text);
+			dispatch({ type: 'SET_LOADING' });
+			const users = await searchUsers(text);
+			dispatch({ type: 'GET_USERS', payload: users });
 			setText('');
 		}
 	};

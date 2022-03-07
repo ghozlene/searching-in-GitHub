@@ -13,24 +13,6 @@ export const GitProvider = ({ children }) => {
 		repos: [],
 	};
 	const [state, dispatch] = useReducer(GitReducer, intialState);
-	//Get Search Results
-	const searchUsers = async (text) => {
-		setLoading();
-		const params = new URLSearchParams({
-			q: text,
-		});
-		const res = await fetch(`${GITHUB_URL}/search/users?${params}`, {
-			headers: {
-				Authorization: `token ${GITHUB_TOKEN}`,
-			},
-		});
-
-		const { items } = await res.json();
-		dispatch({
-			type: 'GET_USERS',
-			payload: items,
-		});
-	};
 
 	//Get One User
 	const searchOneUser = async (login) => {
@@ -91,11 +73,8 @@ export const GitProvider = ({ children }) => {
 	return (
 		<GitContext.Provider
 			value={{
-				users: state.users,
-				loading: state.loading,
-				user: state.user,
-				repos: state.repos,
-				searchUsers,
+				...state,
+				dispatch,
 				clearUsers,
 				searchOneUser,
 				getUserRepos,
