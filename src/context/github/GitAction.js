@@ -17,3 +17,11 @@ export const searchUsers = async (text) => {
 	const resp = await urlAxios.get(`/search/users?${params}`);
 	return resp.data.items;
 };
+//Get One User & Repo in just one function
+export const GetUserAndRepos = async (login) => {
+	const [user, repos] = await Promise.all([
+		urlAxios.get(`/users/${login}`),
+		urlAxios.get(`/users/${login}/repos`),
+	]);
+	return { user: user.data, repos: repos.data };
+};

@@ -6,7 +6,7 @@ import { FireworkSpinner } from '../components/layout/assets/FireworkSpinner';
 import { Link } from 'react-router-dom';
 import GitContext from '../context/github/GitContext';
 import ReposList from '../components/repos/ReposList';
-import { getUserRepos, searchOneUser } from '../context/github/GitAction';
+import { GetUserAndRepos } from '../context/github/GitAction';
 const User = () => {
 	const { user, dispatch, loading, repos } = useContext(GitContext);
 
@@ -14,11 +14,8 @@ const User = () => {
 	useEffect(() => {
 		dispatch({ type: 'SET_LOADING' });
 		const getUserData = async () => {
-			const userData = await searchOneUser(params.login);
-			dispatch({ type: 'GET_USER', payload: userData });
-
-			const userReposData = await getUserRepos(params.login);
-			dispatch({ type: 'GET_REPOS', payload: userReposData });
+			const userData = await GetUserAndRepos(params.login);
+			dispatch({ type: 'GET_USER_AND_REPOS', payload: userData });
 		};
 		getUserData();
 	}, [dispatch, params]);
@@ -101,7 +98,10 @@ const User = () => {
 								<div className='stat'>
 									<div className='stat-title text-md'>Website</div>
 									<div className='text-lg stat-value'>
-										<a href={`${blog}`} target='_blank' rel='noreferrer'>
+										<a
+											href={`https://${blog}`}
+											target='_blank'
+											rel='noreferrer'>
 											{blog}
 										</a>
 									</div>
