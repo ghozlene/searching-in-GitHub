@@ -18,7 +18,7 @@ const User = () => {
 			dispatch({ type: 'GET_USER_AND_REPOS', payload: userData });
 		};
 		getUserData();
-	}, [params]);
+	}, [params, dispatch]);
 
 	if (loading) {
 		return (
